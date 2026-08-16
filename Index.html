@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PE & Family Office Toolkit – Hell & Modern</title>
+    <!-- Chart.js (für Diagramme) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        /* ========== GLOBALE STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f9;
+            color: #1e293b;
+            padding: 24px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Hauptcontainer */
+        .app {
+            max-width: 1400px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 32px 36px;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.08), 0 8px 20px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9edf4;
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #0b2b4a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 span {
+            background: #eef4ff;
+            color: #2a6bff;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 40px;
+            letter-spacing: 0;
+        }
+
+        .header .badge {
+            background: #eef4ff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #2a6bff;
+            border: 1px solid #d6e2ff;
+        }
+
+        /* ========== TABS ========== */
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #e9edf4;
+            padding-bottom: 6px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .tab-btn.active {
+            background: #eef4ff;
+            color: #1a4fcf;
+            font-weight: 600;
+            box-shadow: 0 2px 0 0 #1a4fcf;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0.4;
+                transform: translateY(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== GRIDS & KARTEN ========== */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 22px 24px 24px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.04);
+            border: 1px solid #e9edf4;
+            transition: box-shadow 0.15s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 20, 40, 0.06);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h3 span {
+            color: #2a6bff;
+            font-weight: 500;
+        }
+
+        .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .value.gold {
+            color: #b45309;
+        }
+        .value.green {
+            color: #0b7e3d;
+        }
+        .value.purple {
+            color: #6d28d9;
+        }
+
+        .sub {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* ========== INPUTS ========== */
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .input-group label span {
+            color: #2a6bff;
+            font-weight: 600;
+        }
+
+        .input-group input[type="range"] {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #dce3ed;
+            border-radius: 6px;
+            outline: none;
+            margin-top: 4px;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #2a6bff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(42, 107, 255, 0.3);
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="number"],
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #dce3ed;
+            border-radius: 12px;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 500;
+            transition: border 0.15s, box-shadow 0.15s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #2a6bff;
+            box-shadow: 0 0 0 3px rgba(42, 107, 255, 0.12);
+            outline: none;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            padding: 11px 22px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #2a6bff;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 10px rgba(42, 107, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #1a4fcf;
+            box-shadow: 0 6px 14px rgba(42, 107, 255, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #dce3ed;
+            color: #334155;
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #2a6bff;
+            color: #2a6bff;
+        }
+
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 12px;
+        }
+
+        /* ========== CHECKLISTE ========== */
+        .dd-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .dd-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2a6bff;
+            cursor: pointer;
+        }
+
+        /* ========== MEMO ========== */
+        .memo-text {
+            background: #f8fafc;
+            padding: 16px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #1e293b;
+            border-left: 4px solid #2a6bff;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* ========== CHART ========== */
+        .chart-container {
+            background: #fafcff;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid #e9edf4;
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            max-height: 220px;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #ffffff;
+            border: 1px solid #dce3ed;
+            color: #64748b;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 8px;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+
+        .fullscreen-btn:hover {
+            background: #f1f5f9;
+            border-color: #2a6bff;
+            color: #2a6bff;
+        }
+
+        /* ========== PORTFOLIO ========== */
+        .file-drop {
+            border: 2px dashed #dce3ed;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #fafcff;
+        }
+
+        .file-drop:hover {
+            border-color: #2a6bff;
+            color: #2a6bff;
+            background: #f0f6ff;
+        }
+
+        .file-drop input {
+            display: none;
+        }
+
+        /* ========== TOOLS ========== */
+        .tool-output {
+            background: #f8fafc;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1e293b;
+            border-left: 4px solid #2a6bff;
+            margin-top: 10px;
+            min-height: 48px;
+        }
+
+        .tool-output.small {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .note-area {
+            background: #fafcff;
+            padding: 14px;
+            border-radius: 14px;
+            min-height: 80px;
+            font-size: 13px;
+            color: #1e293b;
+            white-space: pre-wrap;
+            border: 1px solid #e9edf4;
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1000px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .app {
+                padding: 18px 16px;
+            }
+            .header h1 {
+                font-size: 20px;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .tab-btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>
+                📊 PE & Family Office
+                <span>Toolkit</span>
+            </h1>
+            <span class="badge">v4.0 · Praxis‑Tools</span>
+        </div>
+
+        <!-- TABS -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="tab-lbo">📈 LBO‑Modell</button>
+            <button class="tab-btn" data-tab="tab-portfolio">📂 Portfolio</button>
+            <button class="tab-btn" data-tab="tab-dd">✅ Due Diligence</button>
+            <button class="tab-btn" data-tab="tab-memo">📄 IC‑Memo</button>
+            <button class="tab-btn" data-tab="tab-tools">🛠️ Tools</button>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 1: LBO                                                 -->
+        <!-- ========================================================= -->
+        <div id="tab-lbo" class="tab-content active">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📊 Deal‑Parameter</h3>
+                    <div class="input-group">
+                        <label>Unternehmen <span id="lboCompanyLabel">TargetCo</span></label>
+                        <input type="text" id="lboCompany" value="TargetCo" />
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Umsatz (€m) <span id="revVal">100</span></label>
+                            <input type="range" id="revenue" min="10" max="500" value="100" />
+                        </div>
+                        <div class="input-group">
+                            <label>EBITDA (€m) <span id="ebitdaVal">20</span></label>
+                            <input type="range" id="ebitda" min="1" max="150" value="20" step="0.5" />
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Entry Multiple <span id="entryMultVal">10.0</span></label>
+                            <input type="range" id="entryMult" min="4" max="20" value="10" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Exit Multiple <span id="exitMultVal">12.0</span></label>
+                            <input type="range" id="exitMult" min="4" max="25" value="12" step="0.5" />
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Verschuldung (x EBITDA) <span id="debtVal">4.0</span></label>
+                            <input type="range" id="debtEbitda" min="0" max="8" value="4" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Haltedauer (Jahre) <span id="holdVal">5</span></label>
+                            <input type="range" id="hold" min="3" max="10" value="5" step="1" />
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Wachstum p.a. (%) <span id="growthVal">5.0</span></label>
+                            <input type="range" id="growth" min="0" max="20" value="5" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Margin Verbesserung (bps) <span id="marginVal">100</span></label>
+                            <input type="range" id="marginImp" min="0" max="400" value="100" step="25" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="loadDemoBtn" style="width:100%;margin-top:6px;">📈 Demo‑Deal laden</button>
+                </div>
+                <div>
+                    <div class="grid-3" style="margin-bottom:18px;">
+                        <div class="card"><div class="label">Eigenkapital</div><div class="value gold" id="eqInvested">60.0</div><div class="sub">€m</div></div>
+                        <div class="card"><div class="label">Exit‑Equity</div><div class="value green" id="exitEq">152.5</div><div class="sub">€m</div></div>
+                        <div class="card"><div class="label">IRR</div><div class="value purple" id="irrDisplay">20.4%</div><div class="sub">p.a.</div></div>
+                    </div>
+                    <div class="card">
+                        <h3>📉 Prognose <span>(Umsatz / EBITDA)</span></h3>
+                        <div class="chart-container" id="chartContainer">
+                            <canvas id="lboChart"></canvas>
+                            <button class="fullscreen-btn" id="fullscreenChartBtn" title="Vollbild">⛶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: PORTFOLIO                                          -->
+        <!-- ========================================================= -->
+        <div id="tab-portfolio" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📂 Portfolio hochladen <span>(CSV)</span></h3>
+                    <div class="file-drop" id="fileDrop">
+                        <p>📤 CSV hier ablegen oder klicken</p>
+                        <p style="font-size:12px;margin-top:6px;color:#94a3b8;">Spalten: Symbol, Quantity, CurrentPrice, PurchasePrice, Sector</p>
+                        <input type="file" id="csvUpload" accept=".csv" />
+                    </div>
+                    <div style="margin-top:14px;">
+                        <button class="btn btn-primary" id="loadSamplePortfolio" style="width:100%;">📋 Sample‑Portfolio laden</button>
+                    </div>
+                    <div style="margin-top:12px;font-size:13px;color:#64748b;" id="portfolioStatus">Kein Portfolio geladen.</div>
+                </div>
+                <div>
+                    <div class="grid-3" style="margin-bottom:12px;">
+                        <div class="card"><div class="label">Gesamtwert</div><div class="value gold" id="portTotal">0,00 €</div></div>
+                        <div class="card"><div class="label">Gewinn/Verlust</div><div class="value green" id="portPnl">0,00 €</div></div>
+                        <div class="card"><div class="label">Anzahl Positionen</div><div class="value purple" id="portCount">0</div></div>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Sektor‑Verteilung</h3>
+                        <div id="sectorList" style="font-size:13px;color:#1e293b;max-height:180px;overflow-y:auto;">
+                            <p style="color:#94a3b8;">Keine Daten.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: DUE DILIGENCE                                      -->
+        <!-- ========================================================= -->
+        <div id="tab-dd" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>✅ Due‑Diligence‑Checkliste</h3>
+                    <div class="dd-item"><input type="checkbox" id="dd1" /> <label for="dd1">Wiederkehrende Umsätze > 70%</label></div>
+                    <div class="dd-item"><input type="checkbox" id="dd2" /> <label for="dd2">Kundenkonzentration &lt; 20%</label></div>
+                    <div class="dd-item"><input type="checkbox" id="dd3" /> <label for="dd3">Starkes IP / Patente</label></div>
+                    <div class="dd-item"><input type="checkbox" id="dd4" /> <label for="dd4">Erfahrenes Management</label></div>
+                    <div class="dd-item"><input type="checkbox" id="dd5" /> <label for="dd5">Skalierbare Tech‑Infrastruktur</label></div>
+                    <div class="dd-item"><input type="checkbox" id="dd6" /> <label for="dd6">Keine regulatorischen Risiken</label></div>
+                    <div style="margin-top:16px;">
+                        <button class="btn btn-primary" id="ddScoreBtn" style="width:100%;">🔄 Score aktualisieren</button>
+                    </div>
+                    <div style="margin-top:14px;font-size:16px;font-weight:600;" id="ddScoreDisplay">Score: 0/6</div>
+                </div>
+                <div class="card">
+                    <h3>🔍 Analyse (simuliert)</h3>
+                    <p style="font-size:13px;color:#64748b;margin-bottom:12px;">Basierend auf deiner Checkliste:</p>
+                    <div id="ddAnalysis" style="background:#f8fafc;padding:16px;border-radius:14px;font-size:13px;line-height:1.6;color:#1e293b;border-left:4px solid #2a6bff;">
+                        ⏳ Führe den Score‑Check durch.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: IC‑MEMO                                            -->
+        <!-- ========================================================= -->
+        <div id="tab-memo" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📄 IC‑Memo <span>(automatisch)</span></h3>
+                    <p style="font-size:13px;color:#64748b;margin-bottom:12px;">Die Eingaben aus dem LBO‑Tab fließen hier ein.</p>
+                    <div class="memo-text" id="memoText">Lade den Demo‑Deal oder passe die LBO‑Parameter an.</div>
+                    <button class="btn btn-outline" id="refreshMemoBtn" style="margin-top:14px;width:100%;">🔄 Memo neu generieren</button>
+                </div>
+                <div class="card">
+                    <h3>📎 Export‑Optionen <span>(simuliert)</span></h3>
+                    <p style="font-size:13px;color:#64748b;">PDF / XLSX / Google Sheets – in der echten Version integrierbar.</p>
+                    <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+                        <button class="btn btn-outline">📄 PDF</button>
+                        <button class="btn btn-outline">📊 XLSX</button>
+                        <button class="btn btn-outline">☁️ Google Drive</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 5: TOOLS (praktisch)                                  -->
+        <!-- ========================================================= -->
+        <div id="tab-tools" class="tab-content">
+            <div class="grid-2">
+                <!-- Zinseszins -->
+                <div class="card">
+                    <h3>📈 Zinseszins‑Rechner</h3>
+                    <div class="input-group">
+                        <label>Startkapital (€)</label>
+                        <input type="number" id="compoundPrincipal" value="10000" step="100" />
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Zinssatz p.a. (%)</label>
+                            <input type="number" id="compoundRate" value="5" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Laufzeit (Jahre)</label>
+                            <input type="number" id="compoundYears" value="10" step="1" />
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Laufzeit (Slider) <span id="compoundSliderVal">10</span></label>
+                        <input type="range" id="compoundSlider" min="1" max="30" value="10" step="1" />
+                    </div>
+                    <button class="btn btn-primary" id="calcCompoundBtn" style="width:100%;">Berechnen</button>
+                    <div class="tool-output" id="compoundResult">16.288,95 €</div>
+                </div>
+
+                <!-- Zahlen in Text -->
+                <div class="card">
+                    <h3>🔢 Zahlen in Text (für Rechnungen)</h3>
+                    <div class="input-group">
+                        <label>Betrag (€)</label>
+                        <input type="number" id="numberToTextInput" value="1234.56" step="0.01" />
+                    </div>
+                    <button class="btn btn-primary" id="convertNumberBtn" style="width:100%;">Umwandeln</button>
+                    <div class="tool-output small" id="numberToTextOutput">Eintausendzweihundertvierunddreißig Euro und 56 Cent</div>
+                </div>
+
+                <!-- Notizblock -->
+                <div class="card" style="grid-column: span 2;">
+                    <h3>📝 Notizblock <span>(speichert automatisch)</span></h3>
+                    <div class="input-group">
+                        <label>Deine Notiz</label>
+                        <textarea id="noteInput" rows="3" placeholder="Schreibe hier deine Gedanken …"></textarea>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="saveNoteBtn">💾 Speichern</button>
+                        <button class="btn btn-outline" id="clearNoteBtn">🗑️ Löschen</button>
+                    </div>
+                    <div class="note-area" id="noteDisplay">Keine gespeicherte Notiz.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- DOM-Referenzen -----
+            const $ = id => document.getElementById(id);
+
+            // LBO Inputs
+            const lboCompany = $('lboCompany');
+            const revenue = $('revenue');
+            const ebitda = $('ebitda');
+            const entryMult = $('entryMult');
+            const exitMult = $('exitMult');
+            const debtEbitda = $('debtEbitda');
+            const hold = $('hold');
+            const growth = $('growth');
+            const marginImp = $('marginImp');
+
+            const revVal = $('revVal'),
+                ebitdaVal = $('ebitdaVal');
+            const entryMultVal = $('entryMultVal'),
+                exitMultVal = $('exitMultVal');
+            const debtVal = $('debtVal'),
+                holdVal = $('holdVal');
+            const growthVal = $('growthVal'),
+                marginVal = $('marginVal');
+            const lboCompanyLabel = $('lboCompanyLabel');
+            const eqInvested = $('eqInvested'),
+                exitEq = $('exitEq'),
+                irrDisplay = $('irrDisplay');
+
+            // Chart
+            const ctx = document.getElementById('lboChart').getContext('2d');
+            let lboChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['J0', 'J1', 'J2', 'J3', 'J4', 'J5'],
+                    datasets: [
+                        { label: 'Umsatz', data: [100, 105, 110, 116, 122, 128], backgroundColor: 'rgba(42,107,255,0.5)',
+                            borderColor: '#2a6bff', borderWidth: 2 },
+                        { label: 'EBITDA', data: [20, 22, 24, 27, 30, 33], backgroundColor: 'rgba(6,182,212,0.5)',
+                            borderColor: '#06b6d4', borderWidth: 2 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { labels: { color: '#1e293b', boxWidth: 12, padding: 10, font: { size: 12 } } } },
+                    scales: {
+                        x: { ticks: { color: '#64748b' }, grid: { color: '#e9edf4' } },
+                        y: { ticks: { color: '#64748b' }, grid: { color: '#e9edf4' } }
+                    }
+                }
+            });
+
+            // Globale LBO-Daten
+            let currentLBO = { company: 'TargetCo', equity: 60, exitEquity: 152.5, moic: 2.54, irr: 0.204, years: 5, growth: 0.05,
+                entryEv: 200, debt: 140 };
+
+            // ----- LBO Update -----
+            function updateLBO() {
+                const company = lboCompany.value || 'TargetCo';
+                const rev0 = parseFloat(revenue.value) || 100;
+                const ebitda0 = parseFloat(ebitda.value) || 20;
+                const entryM = parseFloat(entryMult.value) || 10;
+                const exitM = parseFloat(exitMult.value) || 12;
+                const debtM = parseFloat(debtEbitda.value) || 4;
+                const years = parseInt(hold.value) || 5;
+                const g = parseFloat(growth.value) / 100;
+                const mImp = parseFloat(marginImp.value) / 10000;
+
+                revVal.textContent = rev0;
+                ebitdaVal.textContent = ebitda0;
+                entryMultVal.textContent = entryM.toFixed(1);
+                exitMultVal.textContent = exitM.toFixed(1);
+                debtVal.textContent = debtM.toFixed(1);
+                holdVal.textContent = years;
+                growthVal.textContent = (g * 100).toFixed(1);
+                marginVal.textContent = marginImp.value;
+                lboCompanyLabel.textContent = company;
+
+                const entryEv = ebitda0 * entryM;
+                const debt = ebitda0 * debtM;
+                const equity = entryEv - debt;
+                const margin0 = ebitda0 / rev0;
+
+                let revenues = [rev0],
+                    ebitdas = [ebitda0];
+                for (let t = 1; t <= years; t++) {
+                    const r = revenues[t - 1] * (1 + g);
+                    revenues.push(r);
+                    const m = Math.min(margin0 + mImp * t, 0.95);
+                    ebitdas.push(r * m);
+                }
+                const exitEbitda = ebitdas[ebitdas.length - 1];
+                const exitEv = exitEbitda * exitM;
+
+                let cumFcf = 0;
+                for (let t = 1; t <= years; t++) cumFcf += ebitdas[t] * 0.6;
+                const debtAtExit = Math.max(0, debt - cumFcf);
+                const exitEquity = Math.max(0, exitEv - debtAtExit);
+                const moic = (equity > 0) ? exitEquity / equity : 0;
+                const irr = (moic > 0 && years > 0) ? Math.pow(moic, 1 / years) - 1 : 0;
+
+                eqInvested.textContent = equity.toFixed(1);
+                exitEq.textContent = exitEquity.toFixed(1);
+                irrDisplay.textContent = (irr * 100).toFixed(1) + '%';
+
+                currentLBO = { company, equity, exitEquity, moic, irr, years, growth: g, entryEv, debt };
+
+                const labels = revenues.map((_, i) => 'J' + i);
+                lboChart.data.labels = labels;
+                lboChart.data.datasets[0].data = revenues;
+                lboChart.data.datasets[1].data = ebitdas;
+                lboChart.update();
+
+                generateMemo(company, entryEv, equity, debt, exitEv, exitEquity, moic, irr, years, g);
+            }
+
+            // ----- IC-Memo -----
+            function generateMemo(company, entryEv, equity, debt, exitEv, exitEquity, moic, irr, years, g) {
+                const ddChecks = [
+                    $('dd1').checked,
+                    $('dd2').checked,
+                    $('dd3').checked,
+                    $('dd4').checked,
+                    $('dd5').checked,
+                    $('dd6').checked
+                ];
+                const ddScore = ddChecks.filter(Boolean).length;
+                const ddIcons = ddChecks.map(c => c ? '✅' : '❌').join(' ');
+                const memo =
+                    `
+            📌 INVESTMENT MEMO – ${company}
+            --------------------------------------------
+            • Entry EV:  ${entryEv.toFixed(1)} €m
+            • Eigenkapital: ${equity.toFixed(1)} €m  (Verschuldung: ${debt.toFixed(1)} €m)
+            • Exit EV:    ${exitEv.toFixed(1)} €m
+            • Exit Equity: ${exitEquity.toFixed(1)} €m
+            • MOIC: ${moic.toFixed(2)}x  |  IRR: ${(irr*100).toFixed(1)}%
+            • Haltedauer: ${years} Jahre  |  CAGR: ${(g*100).toFixed(1)}%
+            • DD-Score: ${ddScore}/6  (${ddIcons})
+            ➡️ Fazit: ${(moic > 2.0 && irr > 0.15) ? '🔹 Attraktive Deal-Struktur – Prüfung empfehlen.' : '🔸 Verbesserungspotential – Weitere Analyse nötig.'}
+            `;
+                $('memoText').textContent = memo;
+            }
+
+            // ----- Demo -----
+            function loadDemo() {
+                lboCompany.value = 'AcmeTech GmbH';
+                revenue.value = 120;
+                ebitda.value = 24;
+                entryMult.value = 11;
+                exitMult.value = 14;
+                debtEbitda.value = 4.5;
+                hold.value = 5;
+                growth.value = 8;
+                marginImp.value = 150;
+                $('dd1').checked = true;
+                $('dd2').checked = false;
+                $('dd3').checked = true;
+                $('dd4').checked = true;
+                $('dd5').checked = true;
+                $('dd6').checked = false;
+                updateLBO();
+                updateDDScore();
+            }
+
+            // ----- DD Score -----
+            function updateDDScore() {
+                const checks = [$('dd1'), $('dd2'), $('dd3'), $('dd4'), $('dd5'), $('dd6')];
+                const score = checks.filter(c => c.checked).length;
+                $('ddScoreDisplay').textContent = 'Score: ' + score + '/6';
+                const analysis = $('ddAnalysis');
+                if (score >= 5) {
+                    analysis.innerHTML =
+                        '✅ <strong>Sehr gute DD-Bewertung.</strong> Das Zielunternehmen weist kaum Risiken auf. Investment-Empfehlung: <span style="color:#0b7e3d;">Positiv</span>';
+                } else if (score >= 3) {
+                    analysis.innerHTML =
+                        '⚠️ <strong>Moderate Risiken.</strong> Einige Punkte sollten im IC-Memo adressiert werden. <span style="color:#b45309;">Weitere Prüfung empfohlen.</span>';
+                } else {
+                    analysis.innerHTML =
+                        '❌ <strong>Erhöhter Prüfbedarf.</strong> Mehrere kritische Punkte ungeklärt. <span style="color:#b91c1c;">Vertiefte Due Diligence nötig.</span>';
+                }
+                updateLBO();
+            }
+
+            // ----- PORTFOLIO -----
+            let portfolioData = [];
+
+            function renderPortfolio(data) {
+                if (!data || data.length === 0) {
+                    $('portTotal').textContent = '0,00 €';
+                    $('portPnl').textContent = '0,00 €';
+                    $('portCount').textContent = '0';
+                    $('sectorList').innerHTML = '<p style="color:#94a3b8;">Keine Daten.</p>';
+                    $('portfolioStatus').textContent = 'Kein Portfolio geladen.';
+                    return;
+                }
+                let total = 0,
+                    totalCost = 0;
+                const sectors = {};
+                data.forEach(row => {
+                    const qty = parseFloat(row.Quantity) || 0;
+                    const price = parseFloat(row.CurrentPrice) || 0;
+                    const cost = parseFloat(row.PurchasePrice) || 0;
+                    const val = qty * price;
+                    total += val;
+                    totalCost += qty * cost;
+                    const sec = row.Sector || 'Unbekannt';
+                    sectors[sec] = (sectors[sec] || 0) + val;
+                });
+                const pnl = total - totalCost;
+                $('portTotal').textContent = total.toFixed(2) + ' €';
+                $('portPnl').textContent = (pnl >= 0 ? '+' : '') + pnl.toFixed(2) + ' €';
+                $('portPnl').style.color = pnl >= 0 ? '#0b7e3d' : '#b91c1c';
+                $('portCount').textContent = data.length;
+                let html = '';
+                for (const [sec, val] of Object.entries(sectors)) {
+                    const pct = total > 0 ? (val / total * 100) : 0;
+                    html +=
+                        `<div style="display:flex;justify-content:space-between;border-bottom:1px solid #e9edf4;padding:5px 0;"><span>${sec}</span><span>${pct.toFixed(1)}% (${val.toFixed(0)} €)</span></div>`;
+                }
+                $('sectorList').innerHTML = html || '<p style="color:#94a3b8;">Keine Sektordaten.</p>';
+                $('portfolioStatus').textContent = `✅ ${data.length} Positionen geladen. Gesamtwert: ${total.toFixed(2)} €`;
+            }
+
+            function loadSamplePortfolio() {
+                portfolioData = [
+                    { Symbol: 'AAPL', Quantity: 10, CurrentPrice: 175, PurchasePrice: 150, Sector: 'Technologie' },
+                    { Symbol: 'MSFT', Quantity: 8, CurrentPrice: 330, PurchasePrice: 280, Sector: 'Technologie' },
+                    { Symbol: 'JPM', Quantity: 15, CurrentPrice: 140, PurchasePrice: 120, Sector: 'Finanzen' },
+                    { Symbol: 'NVO', Quantity: 12, CurrentPrice: 95, PurchasePrice: 80, Sector: 'Gesundheit' },
+                    { Symbol: 'NESN', Quantity: 20, CurrentPrice: 85, PurchasePrice: 90, Sector: 'Konsumgüter' }
+                ];
+                renderPortfolio(portfolioData);
+            }
+
+            // CSV Upload
+            const fileDrop = $('fileDrop');
+            const csvInput = $('csvUpload');
+            fileDrop.addEventListener('click', () => csvInput.click());
+            csvInput.addEventListener('change', function(e) {
+                const file = this.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const text = ev.target.result;
+                    const lines = text.split('\n').filter(l => l.trim());
+                    if (lines.length < 2) return;
+                    const headers = lines[0].split(',').map(h => h.trim());
+                    const data = [];
+                    for (let i = 1; i < lines.length; i++) {
+                        const cols = lines[i].split(',').map(c => c.trim());
+                        if (cols.length < 4) continue;
+                        const obj = {};
+                        headers.forEach((h, idx) => { obj[h] = cols[idx] || ''; });
+                        data.push(obj);
+                    }
+                    portfolioData = data;
+                    renderPortfolio(portfolioData);
+                };
+                reader.readAsText(file);
+            });
+
+            // ----- FULLSCREEN für Chart -----
+            const chartContainer = $('chartContainer');
+            $('fullscreenChartBtn').addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    chartContainer.requestFullscreen().catch(err => { /* ignoriere */ });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // ----- TOOLS -----
+            // Zinseszins
+            function calcCompound() {
+                const P = parseFloat($('compoundPrincipal').value) || 0;
+                const r = parseFloat($('compoundRate').value) / 100 || 0;
+                const n = parseFloat($('compoundYears').value) || 1;
+                const amount = P * Math.pow(1 + r, n);
+                $('compoundResult').textContent = amount.toFixed(2) + ' €';
+            }
+            $('calcCompoundBtn').addEventListener('click', calcCompound);
+            const slider = $('compoundSlider');
+            const sliderVal = $('compoundSliderVal');
+            slider.addEventListener('input', function() {
+                $('compoundYears').value = this.value;
+                sliderVal.textContent = this.value;
+            });
+            $('compoundYears').addEventListener('input', function() {
+                slider.value = this.value;
+                sliderVal.textContent = this.value;
+            });
+
+            // Zahlen in Text (deutsch, bis 1 Mio.)
+            function numberToText(n) {
+                const digits = ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
+                const tens = ['', 'zehn', 'zwanzig', 'dreißig', 'vierzig', 'fünfzig', 'sechzig', 'siebzig', 'achtzig', 'neunzig'];
+                const hundreds = ['', 'einhundert', 'zweihundert', 'dreihundert', 'vierhundert', 'fünfhundert', 'sechshundert',
+                    'siebenhundert', 'achthundert', 'neunhundert'
+                ];
+
+                function zweiStellig(z) {
+                    if (z < 10) return digits[z];
+                    if (z === 10) return 'zehn';
+                    if (z === 11) return 'elf';
+                    if (z === 12) return 'zwölf';
+                    if (z === 16) return 'sechzehn';
+                    if (z === 17) return 'siebzehn';
+                    const e = z % 10;
+                    const zz = Math.floor(z / 10);
+                    if (e === 0) return tens[zz];
+                    return digits[e] + 'und' + tens[zz];
+                }
+
+                function dreistellig(d) {
+                    if (d === 0) return '';
+                    const h = Math.floor(d / 100);
+                    const rest = d % 100;
+                    let text = hundreds[h];
+                    if (rest > 0) {
+                        if (text) text += '';
+                        text += ' ' + zweiStellig(rest);
+                    }
+                    return text;
+                }
+
+                const euro = Math.floor(n);
+                const cents = Math.round((n - euro) * 100);
+                let euroText = '';
+                if (euro === 0) euroText = 'null';
+                else if (euro < 1000) {
+                    euroText = dreistellig(euro);
+                } else if (euro < 1000000) {
+                    const t = Math.floor(euro / 1000);
+                    const rest = euro % 1000;
+                    euroText = dreistellig(t) + 'tausend';
+                    if (rest > 0) euroText += ' ' + dreistellig(rest);
+                } else {
+                    euroText = 'Betrag zu groß';
+                }
+                const centText = cents === 0 ? '' : (cents < 10 ? '0' + cents : '' + cents);
+                let result = euroText + ' Euro';
+                if (centText) result += ' und ' + centText + ' Cent';
+                return result.charAt(0).toUpperCase() + result.slice(1);
+            }
+
+            $('convertNumberBtn').addEventListener('click', function() {
+                const val = parseFloat($('numberToTextInput').value);
+                if (isNaN(val) || val < 0) {
+                    $('numberToTextOutput').textContent = 'Bitte gültigen Betrag eingeben.';
+                    return;
+                }
+                $('numberToTextOutput').textContent = numberToText(val);
+            });
+
+            // Notizblock mit localStorage
+            function loadNote() {
+                const saved = localStorage.getItem('pe_tool_note');
+                if (saved) {
+                    $('noteDisplay').textContent = saved;
+                    $('noteInput').value = saved;
+                } else {
+                    $('noteDisplay').textContent = 'Keine gespeicherte Notiz.';
+                }
+            }
+
+            $('saveNoteBtn').addEventListener('click', function() {
+                const text = $('noteInput').value.trim();
+                if (text) {
+                    localStorage.setItem('pe_tool_note', text);
+                    $('noteDisplay').textContent = text;
+                } else {
+                    localStorage.removeItem('pe_tool_note');
+                    $('noteDisplay').textContent = 'Notiz gelöscht.';
+                }
+            });
+
+            $('clearNoteBtn').addEventListener('click', function() {
+                localStorage.removeItem('pe_tool_note');
+                $('noteInput').value = '';
+                $('noteDisplay').textContent = 'Notiz gelöscht.';
+            });
+
+            // ----- TABS -----
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                    document.getElementById(this.dataset.tab).classList.add('active');
+                });
+            });
+
+            // ----- EVENT LISTENER -----
+            const allRangeInputs = [revenue, ebitda, entryMult, exitMult, debtEbitda, hold, growth, marginImp];
+            allRangeInputs.forEach(inp => inp.addEventListener('input', updateLBO));
+            lboCompany.addEventListener('input', updateLBO);
+
+            $('loadDemoBtn').addEventListener('click', loadDemo);
+            $('ddScoreBtn').addEventListener('click', updateDDScore);
+            [$('dd1'), $('dd2'), $('dd3'), $('dd4'), $('dd5'), $('dd6')].forEach(cb => cb.addEventListener('change',
+                updateDDScore));
+            $('refreshMemoBtn').addEventListener('click', updateLBO);
+            $('loadSamplePortfolio').addEventListener('click', loadSamplePortfolio);
+
+            // ----- INIT -----
+            loadDemo();
+            loadSamplePortfolio();
+            calcCompound();
+            loadNote();
+
+            console.log('✅ Toolkit (hell) geladen – alle Funktionen bereit.');
+        })();
+    </script>
+</body>
+</html>
