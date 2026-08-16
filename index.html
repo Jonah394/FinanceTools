@@ -1,0 +1,1346 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PE & Family Office Toolkit – Professional</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        /* ================================================================
+               HELLES, PROFESSIONELLES DESIGN
+               ================================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f8fc;
+            color: #1a2634;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 1480px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 28px 32px;
+            box-shadow: 0 8px 40px rgba(0, 20, 50, 0.06);
+            border: 1px solid #e9edf4;
+        }
+
+        /* ----- HEADER ----- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #eef2f7;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a1a2f;
+            letter-spacing: -0.3px;
+        }
+
+        .header h1 span {
+            color: #1a5cff;
+        }
+
+        .header .badge {
+            background: #eef4ff;
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a5cff;
+            border: 1px solid #d6e2ff;
+        }
+
+        /* ----- TABS ----- */
+        .tab-bar {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 6px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7a8f;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.15s;
+        }
+
+        .tab-btn:hover {
+            background: #f0f4fa;
+            color: #1a2634;
+        }
+
+        .tab-btn.active {
+            background: #1a5cff;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(26, 92, 255, 0.25);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0.4;
+                transform: translateY(6px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- GRIDS ----- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        /* ----- KARTEN ----- */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px 22px 22px;
+            border: 1px solid #e9edf4;
+            box-shadow: 0 2px 8px rgba(0, 20, 40, 0.02);
+            transition: box-shadow 0.15s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 20, 40, 0.04);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a2634;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h3 span {
+            color: #1a5cff;
+            font-weight: 500;
+        }
+
+        .card .subtitle {
+            font-size: 13px;
+            color: #6b7a8f;
+            margin-top: -10px;
+            margin-bottom: 14px;
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #8a9bb0;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .value {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .value.blue {
+            color: #1a5cff;
+        }
+        .value.green {
+            color: #0b8a4a;
+        }
+        .value.gold {
+            color: #b86b1f;
+        }
+        .value.purple {
+            color: #6d28d9;
+        }
+        .value.red {
+            color: #d92b2b;
+        }
+
+        .sub {
+            font-size: 12px;
+            color: #8a9bb0;
+            margin-top: 2px;
+        }
+
+        /* ----- INPUTS ----- */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 500;
+            color: #2a3a4f;
+            margin-bottom: 4px;
+        }
+
+        .input-group label .hint {
+            color: #8a9bb0;
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .input-group label span {
+            color: #1a5cff;
+            font-weight: 600;
+        }
+
+        .input-group input[type="range"] {
+            width: 100%;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #e2e8f0;
+            border-radius: 6px;
+            outline: none;
+            margin-top: 4px;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #1a5cff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(26, 92, 255, 0.25);
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="number"],
+        .input-group select {
+            width: 100%;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #dce3ed;
+            border-radius: 10px;
+            color: #1a2634;
+            font-size: 14px;
+            font-weight: 500;
+            transition: border 0.15s, box-shadow 0.15s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #1a5cff;
+            box-shadow: 0 0 0 3px rgba(26, 92, 255, 0.08);
+            outline: none;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* ----- BUTTONS ----- */
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: #f0f4fa;
+            color: #1a2634;
+            border: 1px solid #dce3ed;
+        }
+
+        .btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: #1a5cff;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(26, 92, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #0f4ad4;
+            box-shadow: 0 6px 18px rgba(26, 92, 255, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #dce3ed;
+            color: #2a3a4f;
+        }
+
+        .btn-outline:hover {
+            border-color: #1a5cff;
+            color: #1a5cff;
+            background: rgba(26, 92, 255, 0.04);
+        }
+
+        .btn-sm {
+            padding: 5px 16px;
+            font-size: 12px;
+        }
+
+        /* ----- CHART (mit Vollbild) ----- */
+        .chart-container {
+            background: #fafcff;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid #e9edf4;
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .chart-container canvas {
+            width: 100% !important;
+            max-height: 220px;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffffff;
+            border: 1px solid #dce3ed;
+            color: #6b7a8f;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            line-height: 1;
+            transition: 0.15s;
+            z-index: 5;
+        }
+
+        .fullscreen-btn:hover {
+            background: #f0f4fa;
+            border-color: #1a5cff;
+            color: #1a5cff;
+        }
+
+        /* ----- MONTE CARLO ----- */
+        .mc-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .mc-stat {
+            background: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #e9edf4;
+            text-align: center;
+        }
+
+        .mc-stat .label {
+            font-size: 10px;
+        }
+        .mc-stat .value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .mc-path-container {
+            margin-top: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        /* ----- SEARCH / API ----- */
+        .search-result {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eef2f7;
+            cursor: pointer;
+            transition: 0.1s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-result:hover {
+            background: #f0f6ff;
+        }
+
+        .search-result .symbol {
+            font-weight: 600;
+            color: #1a5cff;
+        }
+        .search-result .name {
+            color: #2a3a4f;
+            font-size: 13px;
+        }
+        .search-result .price {
+            font-weight: 600;
+            color: #0b8a4a;
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media(max-width:1000px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+            .mc-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:600px) {
+            .app {
+                padding: 16px;
+            }
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .mc-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+            .tab-btn {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        .mc-path-container::-webkit-scrollbar,
+        .memo-text::-webkit-scrollbar {
+            width: 4px;
+        }
+        .mc-path-container::-webkit-scrollbar-track,
+        .memo-text::-webkit-scrollbar-track {
+            background: #f0f4fa;
+        }
+        .mc-path-container::-webkit-scrollbar-thumb,
+        .memo-text::-webkit-scrollbar-thumb {
+            background: #dce3ed;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>📊 PE & Family Office <span>Toolkit</span></h1>
+            <span class="badge">v7.0 · Professionell</span>
+        </div>
+
+        <!-- TABS -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="tab-dashboard">📊 Dashboard</button>
+            <button class="tab-btn" data-tab="tab-montecarlo">🎲 Monte Carlo</button>
+            <button class="tab-btn" data-tab="tab-calculator">🧮 Rechner</button>
+            <button class="tab-btn" data-tab="tab-search">🔍 Suche</button>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 1: DASHBOARD (LBO + KPIs + Chart)                     -->
+        <!-- ========================================================= -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📈 LBO‑Modell <span>Parameter</span></h3>
+
+                    <div class="input-group">
+                        <label>Unternehmen <span id="lboCompanyLabel">TargetCo</span></label>
+                        <input type="text" id="lboCompany" value="TargetCo" />
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Umsatz <span class="hint">(€m)</span> <span id="revVal">100</span></label>
+                            <input type="range" id="revenue" min="10" max="500" value="100" />
+                        </div>
+                        <div class="input-group">
+                            <label>EBITDA <span class="hint">(€m)</span> <span id="ebitdaVal">20</span></label>
+                            <input type="range" id="ebitda" min="1" max="150" value="20" step="0.5" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>EBITDA‑Marge <span class="hint">(Start)</span> <span id="marginStartVal">20.0%</span></label>
+                            <input type="range" id="marginStart" min="5" max="60" value="20" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Marge‑Steigerung <span class="hint">(bps p.a.)</span> <span id="marginImpVal">100</span></label>
+                            <input type="range" id="marginImp" min="0" max="400" value="100" step="25" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Entry Multiple <span id="entryMultVal">10.0</span></label>
+                            <input type="range" id="entryMult" min="4" max="20" value="10" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Exit Multiple <span id="exitMultVal">12.0</span></label>
+                            <input type="range" id="exitMult" min="4" max="25" value="12" step="0.5" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Verschuldung <span class="hint">(x EBITDA)</span> <span id="debtVal">4.0</span></label>
+                            <input type="range" id="debtEbitda" min="0" max="8" value="4" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Haltedauer <span class="hint">(Jahre)</span> <span id="holdVal">5</span></label>
+                            <input type="range" id="hold" min="3" max="10" value="5" step="1" />
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Umsatzwachstum <span class="hint">(p.a.)</span> <span id="growthVal">5.0%</span></label>
+                        <input type="range" id="growth" min="0" max="20" value="5" step="0.5" />
+                    </div>
+
+                    <button class="btn btn-primary" id="loadDemoBtn" style="width:100%;margin-top:4px;">📈 Demo‑Deal laden</button>
+                </div>
+
+                <div>
+                    <div class="grid-4" style="margin-bottom:16px;">
+                        <div class="card"><div class="label">Eigenkapital</div><div class="value blue" id="eqInvested">60.0</div><div class="sub">€m</div></div>
+                        <div class="card"><div class="label">Exit‑Equity</div><div class="value green" id="exitEq">152.5</div><div class="sub">€m</div></div>
+                        <div class="card"><div class="label">MOIC</div><div class="value gold" id="moicDisplay">2.54x</div><div class="sub">Multiple</div></div>
+                        <div class="card"><div class="label">IRR</div><div class="value purple" id="irrDisplay">20.4%</div><div class="sub">p.a.</div></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📉 Prognose <span>Umsatz / EBITDA</span></h3>
+                        <div class="chart-container" id="chartContainer">
+                            <canvas id="lboChart"></canvas>
+                            <button class="fullscreen-btn" id="fullscreenChartBtn" title="Vollbild">⛶</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>📄 IC‑Memo <span>(automatisch)</span></h3>
+                        <div class="memo-text" id="memoText" style="background:#f8fafc;padding:14px;border-radius:12px;font-size:13px;line-height:1.6;color:#1a2634;border-left:3px solid #1a5cff;font-family:monospace;white-space:pre-wrap;max-height:140px;overflow-y:auto;">
+                            Lade den Demo‑Deal oder passe die Parameter an.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 2: MONTE CARLO                                         -->
+        <!-- ========================================================= -->
+        <div id="tab-montecarlo" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🎲 Monte‑Carlo‑Simulation <span>Parameter</span></h3>
+                    <p class="subtitle">Simuliert 100.000 mögliche Portfolio-Entwicklungen.</p>
+
+                    <div class="input-group">
+                        <label>Startkapital <span class="hint">(€)</span></label>
+                        <input type="number" id="mcPrincipal" value="100000" step="10000" />
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Erwartete Rendite <span class="hint">(p.a.)</span></label>
+                            <input type="number" id="mcReturn" value="7" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Volatilität <span class="hint">(p.a.)</span></label>
+                            <input type="number" id="mcVolatility" value="15" step="0.5" />
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Laufzeit <span class="hint">(Jahre)</span></label>
+                            <input type="number" id="mcYears" value="20" step="1" />
+                        </div>
+                        <div class="input-group">
+                            <label>Entnahmerate <span class="hint">(p.a.)</span></label>
+                            <input type="number" id="mcWithdrawal" value="0" step="0.5" />
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Anzahl Simulationen</label>
+                        <select id="mcIterations">
+                            <option value="1000">1.000</option>
+                            <option value="10000">10.000</option>
+                            <option value="50000" selected>50.000</option>
+                            <option value="100000">100.000</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" id="mcRunBtn" style="width:100%;margin-top:6px;">▶ Simulation starten</button>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <h3>📊 Simulationsergebnisse</h3>
+                        <div class="mc-stats" id="mcStats">
+                            <div class="mc-stat"><div class="label">Median</div><div class="value green" id="mcMedian">—</div></div>
+                            <div class="mc-stat"><div class="label">5. Perzentil</div><div class="value red" id="mcP5">—</div></div>
+                            <div class="mc-stat"><div class="label">95. Perzentil</div><div class="value blue" id="mcP95">—</div></div>
+                            <div class="mc-stat"><div class="label">Erfolgswahrscheinlichkeit</div><div class="value purple" id="mcSuccess">—</div></div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>📈 Verteilung <span>(Histogramm)</span></h3>
+                        <div class="chart-container" id="mcChartContainer">
+                            <canvas id="mcChart"></canvas>
+                            <button class="fullscreen-btn" id="fullscreenMcBtn" title="Vollbild">⛶</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>📉 Beispiel-Pfade <span>(10 zufällige)</span></h3>
+                        <div class="mc-path-container" id="mcPaths">
+                            <p style="color:#8a9bb0;font-size:13px;">Führe eine Simulation durch.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 3: RECHNER                                             -->
+        <!-- ========================================================= -->
+        <div id="tab-calculator" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📈 Zinseszins‑Rechner</h3>
+                    <p class="subtitle">Berechnet den Endwert einer einmaligen Anlage.</p>
+
+                    <div class="input-group">
+                        <label>Startkapital <span class="hint">(€)</span></label>
+                        <input type="number" id="calcPrincipal" value="10000" step="100" />
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Zinssatz <span class="hint">(p.a.)</span></label>
+                            <input type="number" id="calcRate" value="5" step="0.5" />
+                        </div>
+                        <div class="input-group">
+                            <label>Laufzeit <span class="hint">(Jahre)</span></label>
+                            <input type="number" id="calcYears" value="10" step="1" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" id="calcCompoundBtn" style="width:100%;">Berechnen</button>
+
+                    <div style="margin-top:14px;background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e9edf4;">
+                        <span class="label">Endwert</span>
+                        <div style="font-size:28px;font-weight:700;color:#1a5cff;" id="calcResult">16.288,95 €</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Rendite‑Rechner</h3>
+                    <p class="subtitle">Berechnet die durchschnittliche jährliche Rendite.</p>
+
+                    <div class="input-group">
+                        <label>Startwert <span class="hint">(€)</span></label>
+                        <input type="number" id="returnStart" value="10000" step="100" />
+                    </div>
+
+                    <div class="input-group">
+                        <label>Endwert <span class="hint">(€)</span></label>
+                        <input type="number" id="returnEnd" value="20000" step="100" />
+                    </div>
+
+                    <div class="input-group">
+                        <label>Laufzeit <span class="hint">(Jahre)</span></label>
+                        <input type="number" id="returnYears" value="10" step="1" />
+                    </div>
+
+                    <button class="btn btn-primary" id="calcReturnBtn" style="width:100%;">Berechnen</button>
+
+                    <div style="margin-top:14px;background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e9edf4;">
+                        <span class="label">Durchschnittliche Rendite p.a.</span>
+                        <div style="font-size:28px;font-weight:700;color:#0b8a4a;" id="returnResult">7,18%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- TAB 4: SEARCH (Yahoo Finance API)                         -->
+        <!-- ========================================================= -->
+        <div id="tab-search" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🔍 Finanzprodukte suchen <span>Yahoo Finance</span></h3>
+                    <p class="subtitle">Suche nach Aktien, ETFs, Indizes und mehr.</p>
+
+                    <div class="input-group">
+                        <label>Symbol oder Name</label>
+                        <input type="text" id="searchInput" placeholder="z.B. AAPL, Microsoft, DAX" />
+                    </div>
+
+                    <button class="btn btn-primary" id="searchBtn" style="width:100%;">🔎 Suchen</button>
+
+                    <div style="margin-top:16px;max-height:400px;overflow-y:auto;" id="searchResults">
+                        <p style="color:#8a9bb0;font-size:13px;">Gib ein Symbol ein und klicke auf Suchen.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <h3>📊 Detailansicht <span>ausgewähltes Produkt</span></h3>
+                        <div id="detailView" style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e9edf4;min-height:120px;">
+                            <p style="color:#8a9bb0;font-size:13px;">Wähle ein Suchergebnis aus, um Details zu sehen.</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top:16px;">
+                        <h3>📈 Kursverlauf <span>(Chart)</span></h3>
+                        <div class="chart-container" id="historyChartContainer">
+                            <canvas id="historyChart"></canvas>
+                            <button class="fullscreen-btn" id="fullscreenHistoryBtn" title="Vollbild">⛶</button>
+                        </div>
+                        <p style="font-size:12px;color:#8a9bb0;margin-top:6px;">Zeigt die letzten 30 Tage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- DOM-Referenzen -----
+            const $ = id => document.getElementById(id);
+
+            // ==========================================================
+            // 1. DASHBOARD – LBO-MODELL
+            // ==========================================================
+
+            const lboCompany = $('lboCompany');
+            const revenue = $('revenue');
+            const ebitda = $('ebitda');
+            const marginStart = $('marginStart');
+            const marginImp = $('marginImp');
+            const entryMult = $('entryMult');
+            const exitMult = $('exitMult');
+            const debtEbitda = $('debtEbitda');
+            const hold = $('hold');
+            const growth = $('growth');
+
+            const revVal = $('revVal'),
+                ebitdaVal = $('ebitdaVal');
+            const marginStartVal = $('marginStartVal'),
+                marginImpVal = $('marginImpVal');
+            const entryMultVal = $('entryMultVal'),
+                exitMultVal = $('exitMultVal');
+            const debtVal = $('debtVal'),
+                holdVal = $('holdVal');
+            const growthVal = $('growthVal');
+            const lboCompanyLabel = $('lboCompanyLabel');
+
+            const eqInvested = $('eqInvested'),
+                exitEq = $('exitEq');
+            const moicDisplay = $('moicDisplay'),
+                irrDisplay = $('irrDisplay');
+
+            // LBO-Chart
+            const ctx = document.getElementById('lboChart').getContext('2d');
+            let lboChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['J0', 'J1', 'J2', 'J3', 'J4', 'J5'],
+                    datasets: [
+                        { label: 'Umsatz', data: [100, 105, 110, 116, 122, 128],
+                            backgroundColor: 'rgba(26,92,255,0.4)', borderColor: '#1a5cff', borderWidth: 2 },
+                        { label: 'EBITDA', data: [20, 22, 24, 27, 30, 33],
+                            backgroundColor: 'rgba(6,182,212,0.3)', borderColor: '#06b6d4', borderWidth: 2 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { labels: { color: '#2a3a4f', boxWidth: 12, padding: 10, font: { size: 12 } } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#6b7a8f' }, grid: { color: '#eef2f7' } },
+                        y: { ticks: { color: '#6b7a8f' }, grid: { color: '#eef2f7' } }
+                    }
+                }
+            });
+
+            let currentLBO = {};
+
+            function updateLBO() {
+                const company = lboCompany.value || 'TargetCo';
+                const rev0 = parseFloat(revenue.value) || 100;
+                const ebitda0 = parseFloat(ebitda.value) || 20;
+                const margin0 = parseFloat(marginStart.value) / 100 || 0.20;
+                const mImp = parseFloat(marginImp.value) / 10000 || 0;
+                const entryM = parseFloat(entryMult.value) || 10;
+                const exitM = parseFloat(exitMult.value) || 12;
+                const debtM = parseFloat(debtEbitda.value) || 4;
+                const years = parseInt(hold.value) || 5;
+                const g = parseFloat(growth.value) / 100 || 0.05;
+
+                revVal.textContent = rev0;
+                ebitdaVal.textContent = ebitda0;
+                marginStartVal.textContent = (margin0 * 100).toFixed(1) + '%';
+                marginImpVal.textContent = marginImp.value;
+                entryMultVal.textContent = entryM.toFixed(1);
+                exitMultVal.textContent = exitM.toFixed(1);
+                debtVal.textContent = debtM.toFixed(1);
+                holdVal.textContent = years;
+                growthVal.textContent = (g * 100).toFixed(1) + '%';
+                lboCompanyLabel.textContent = company;
+
+                const entryEv = ebitda0 * entryM;
+                const debt = ebitda0 * debtM;
+                const equity = entryEv - debt;
+
+                let revenues = [rev0],
+                    ebitdas = [ebitda0];
+                for (let t = 1; t <= years; t++) {
+                    const r = revenues[t - 1] * (1 + g);
+                    revenues.push(r);
+                    const m = Math.min(margin0 + mImp * t, 0.95);
+                    ebitdas.push(r * m);
+                }
+                const exitEbitda = ebitdas[ebitdas.length - 1];
+                const exitEv = exitEbitda * exitM;
+
+                let cumFcf = 0;
+                for (let t = 1; t <= years; t++) cumFcf += ebitdas[t] * 0.6;
+                const debtAtExit = Math.max(0, debt - cumFcf);
+                const exitEquity = Math.max(0, exitEv - debtAtExit);
+                const moic = (equity > 0) ? exitEquity / equity : 0;
+                const irr = (moic > 0 && years > 0) ? Math.pow(moic, 1 / years) - 1 : 0;
+
+                eqInvested.textContent = equity.toFixed(1);
+                exitEq.textContent = exitEquity.toFixed(1);
+                moicDisplay.textContent = moic.toFixed(2) + 'x';
+                irrDisplay.textContent = (irr * 100).toFixed(1) + '%';
+
+                currentLBO = { company, rev0, ebitda0, margin0, mImp, entryM, exitM, debtM, years, g, entryEv, debt, equity,
+                    exitEv, exitEbitda, exitEquity, moic, irr };
+
+                const labels = revenues.map((_, i) => 'J' + i);
+                lboChart.data.labels = labels;
+                lboChart.data.datasets[0].data = revenues;
+                lboChart.data.datasets[1].data = ebitdas;
+                lboChart.update();
+
+                generateMemo();
+            }
+
+            function generateMemo() {
+                const d = currentLBO;
+                if (!d || !d.company) {
+                    $('memoText').textContent = 'Bitte Parameter anpassen oder Demo laden.';
+                    return;
+                }
+                const memo =
+                    `
+            📌 INVESTMENT MEMO – ${d.company}
+            ────────────────────────────────────
+            Entry EV:       ${d.entryEv.toFixed(1)} €m
+            Eigenkapital:   ${d.equity.toFixed(1)} €m  (Debt: ${d.debt.toFixed(1)} €m)
+            Exit EV:        ${d.exitEv.toFixed(1)} €m
+            Exit EBITDA:    ${d.exitEbitda.toFixed(1)} €m
+            Exit Equity:    ${d.exitEquity.toFixed(1)} €m
+
+            📊 KPIs
+            MOIC:           ${d.moic.toFixed(2)}x
+            IRR:            ${(d.irr*100).toFixed(1)}%
+            Haltedauer:     ${d.years} Jahre
+            CAGR:           ${(d.g*100).toFixed(1)}%
+
+            ➡️ Fazit:       ${(d.moic > 2.0 && d.irr > 0.15) ? '🔹 Attraktiv – Prüfung empfehlen.' : '🔸 Verbesserungspotential – Analyse nötig.'}
+            `;
+                $('memoText').textContent = memo;
+            }
+
+            function loadDemo() {
+                lboCompany.value = 'AcmeTech GmbH';
+                revenue.value = 120;
+                ebitda.value = 24;
+                marginStart.value = 20;
+                marginImp.value = 150;
+                entryMult.value = 11;
+                exitMult.value = 14;
+                debtEbitda.value = 4.5;
+                hold.value = 5;
+                growth.value = 8;
+                updateLBO();
+            }
+
+            // ----- LBO Event-Listener -----
+            const lboInputs = [revenue, ebitda, marginStart, marginImp, entryMult, exitMult, debtEbitda, hold, growth];
+            lboInputs.forEach(inp => inp.addEventListener('input', updateLBO));
+            lboCompany.addEventListener('input', updateLBO);
+            $('loadDemoBtn').addEventListener('click', loadDemo);
+
+            // ----- CHART Vollbild (funktioniert) -----
+            const chartContainer = $('chartContainer');
+            $('fullscreenChartBtn').addEventListener('click', function() {
+                const canvas = chartContainer.querySelector('canvas');
+                if (!document.fullscreenElement) {
+                    canvas.requestFullscreen().catch(err => {});
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // ==========================================================
+            // 2. MONTE CARLO SIMULATION
+            // ==========================================================
+
+            let mcChart = null;
+            let mcData = [];
+
+            function monteCarloSimulation(principal, expectedReturn, volatility, years, withdrawalRate, iterations) {
+                const results = [];
+                const paths = [];
+
+                for (let i = 0; i < iterations; i++) {
+                    let value = principal;
+                    const path = [value];
+                    for (let y = 0; y < years; y++) {
+                        // Box-Muller für Normalverteilung
+                        let u1, u2;
+                        do {
+                            u1 = Math.random();
+                            u2 = Math.random();
+                        } while (u1 === 0);
+                        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+                        const return_ = (expectedReturn / 100) + (volatility / 100) * z;
+                        const cappedReturn = Math.max(-0.9999, Math.min(return_, 0.5));
+                        value = value * (1 + cappedReturn);
+                        // Entnahme
+                        if (withdrawalRate > 0 && y >= 0) {
+                            value = value * (1 - withdrawalRate / 100);
+                        }
+                        path.push(Math.max(0, value));
+                    }
+                    results.push(value);
+                    if (i < 10) paths.push(path);
+                }
+                results.sort((a, b) => a - b);
+                return {
+                    results,
+                    paths,
+                    median: results[Math.floor(results.length / 2)],
+                    p5: results[Math.floor(results.length * 0.05)],
+                    p95: results[Math.floor(results.length * 0.95)],
+                    successRate: results.filter(v => v >= principal).length / results.length * 100
+                };
+            }
+
+            function runMonteCarlo() {
+                const principal = parseFloat($('mcPrincipal').value) || 100000;
+                const expectedReturn = parseFloat($('mcReturn').value) || 7;
+                const volatility = parseFloat($('mcVolatility').value) || 15;
+                const years = parseInt($('mcYears').value) || 20;
+                const withdrawalRate = parseFloat($('mcWithdrawal').value) || 0;
+                const iterations = parseInt($('mcIterations').value) || 50000;
+
+                const result = monteCarloSimulation(principal, expectedReturn, volatility, years, withdrawalRate, iterations);
+                mcData = result;
+
+                // Stats
+                $('mcMedian').textContent = result.median.toFixed(2) + ' €';
+                $('mcP5').textContent = result.p5.toFixed(2) + ' €';
+                $('mcP95').textContent = result.p95.toFixed(2) + ' €';
+                $('mcSuccess').textContent = result.successRate.toFixed(1) + '%';
+
+                // Histogram
+                const bins = 30;
+                const min = Math.max(0, result.p5 * 0.5);
+                const max = result.p95 * 1.5;
+                const binWidth = (max - min) / bins;
+                const histogram = new Array(bins).fill(0);
+                result.results.forEach(v => {
+                    const idx = Math.min(bins - 1, Math.floor((v - min) / binWidth));
+                    if (idx >= 0) histogram[idx]++;
+                });
+
+                const labels = histogram.map((_, i) => {
+                    const v = min + i * binWidth;
+                    return (v / 1000).toFixed(0) + 'k';
+                });
+
+                if (mcChart) mcChart.destroy();
+
+                const mcCtx = document.getElementById('mcChart').getContext('2d');
+                mcChart = new Chart(mcCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Häufigkeit',
+                            data: histogram,
+                            backgroundColor: 'rgba(26,92,255,0.5)',
+                            borderColor: '#1a5cff',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { labels: { color: '#2a3a4f', font: { size: 11 } } }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#6b7a8f', font: { size: 10 } }, grid: { color: '#eef2f7' } },
+                            y: { ticks: { color: '#6b7a8f' }, grid: { color: '#eef2f7' } }
+                        }
+                    }
+                });
+
+                // Pfade
+                let pathHtml = '';
+                result.paths.forEach((path, idx) => {
+                    const color = ['#1a5cff', '#0b8a4a', '#b86b1f', '#6d28d9', '#d92b2b', '#06b6d4', '#f59e0b', '#8b5cf6',
+                        '#ec4899', '#14b8a6'
+                    ][idx % 10];
+                    const points = path.map((v, i) => `${i},${v/1000}`).join(' ');
+                    pathHtml +=
+                        `<div style="display:flex;align-items:center;gap:8px;font-size:12px;padding:2px 0;border-bottom:1px solid #f0f4fa;">
+                            <span style="display:inline-block;width:12px;height:3px;background:${color};border-radius:2px;"></span>
+                            <span>Pfad ${idx+1}: Ende ${path[path.length-1].toFixed(0)} €</span>
+                        </div>`;
+                });
+                $('mcPaths').innerHTML = pathHtml;
+            }
+
+            $('mcRunBtn').addEventListener('click', runMonteCarlo);
+
+            // ----- MC Vollbild -----
+            $('fullscreenMcBtn').addEventListener('click', function() {
+                const canvas = document.getElementById('mcChart');
+                if (!document.fullscreenElement) {
+                    canvas.requestFullscreen().catch(err => {});
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // ==========================================================
+            // 3. RECHNER
+            // ==========================================================
+
+            // Zinseszins
+            function calcCompound() {
+                const P = parseFloat($('calcPrincipal').value) || 0;
+                const r = parseFloat($('calcRate').value) / 100 || 0;
+                const n = parseFloat($('calcYears').value) || 1;
+                const amount = P * Math.pow(1 + r, n);
+                $('calcResult').textContent = amount.toFixed(2) + ' €';
+            }
+            $('calcCompoundBtn').addEventListener('click', calcCompound);
+
+            // Rendite
+            function calcReturn() {
+                const start = parseFloat($('returnStart').value) || 0;
+                const end = parseFloat($('returnEnd').value) || 0;
+                const years = parseFloat($('returnYears').value) || 1;
+                if (start <= 0 || end <= 0 || years <= 0) {
+                    $('returnResult').textContent = 'Ungültige Eingabe';
+                    return;
+                }
+                const rate = (Math.pow(end / start, 1 / years) - 1) * 100;
+                $('returnResult').textContent = rate.toFixed(2) + '%';
+            }
+            $('calcReturnBtn').addEventListener('click', calcReturn);
+
+            // ==========================================================
+            // 4. SEARCH (Yahoo Finance API)
+            // ==========================================================
+
+            let historyChart = null;
+            let selectedSymbol = '';
+
+            async function searchYahoo(query) {
+                const resultsDiv = $('searchResults');
+                resultsDiv.innerHTML = '<p style="color:#6b7a8f;">Suche läuft...</p>';
+
+                try {
+                    // Yahoo Finance Search API
+                    const url =
+                        `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}&lang=de-DE&region=DE`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (!data.quotes || data.quotes.length === 0) {
+                        resultsDiv.innerHTML = '<p style="color:#6b7a8f;">Keine Ergebnisse gefunden.</p>';
+                        return;
+                    }
+
+                    let html = '';
+                    data.quotes.slice(0, 20).forEach(quote => {
+                        const symbol = quote.symbol || '—';
+                        const name = quote.longname || quote.shortname || quote.symbol || '—';
+                        const price = quote.regularMarketPrice ? quote.regularMarketPrice.toFixed(2) + ' €' : '—';
+                        html += `
+                            <div class="search-result" data-symbol="${symbol}">
+                                <div>
+                                    <span class="symbol">${symbol}</span>
+                                    <span class="name">${name}</span>
+                                </div>
+                                <span class="price">${price}</span>
+                            </div>
+                        `;
+                    });
+                    resultsDiv.innerHTML = html;
+
+                    // Klick-Handler für Ergebnisse
+                    document.querySelectorAll('.search-result').forEach(el => {
+                        el.addEventListener('click', function() {
+                            const symbol = this.dataset.symbol;
+                            loadDetail(symbol);
+                        });
+                    });
+
+                } catch (err) {
+                    resultsDiv.innerHTML = `<p style="color:#d92b2b;">Fehler bei der Suche: ${err.message}</p>`;
+                }
+            }
+
+            async function loadDetail(symbol) {
+                selectedSymbol = symbol;
+                const detailView = $('detailView');
+
+                try {
+                    // Quote
+                    const quoteUrl =
+                        `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?range=1d&interval=1m`;
+                    const response = await fetch(quoteUrl);
+                    const data = await response.json();
+
+                    const result = data.chart.result[0];
+                    const meta = result.meta;
+                    const quote = result.indicators.quote[0];
+
+                    const price = meta.regularMarketPrice || '—';
+                    const currency = meta.currency || 'USD';
+                    const change = meta.regularMarketPrice - meta.previousClose;
+                    const changePercent = meta.previousClose ? (change / meta.previousClose * 100) : 0;
+                    const changeColor = change >= 0 ? '#0b8a4a' : '#d92b2b';
+
+                    detailView.innerHTML = `
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                            <div>
+                                <span class="label">Symbol</span>
+                                <div style="font-size:20px;font-weight:700;color:#1a5cff;">${symbol}</div>
+                            </div>
+                            <div>
+                                <span class="label">Kurs</span>
+                                <div style="font-size:20px;font-weight:700;">${price} ${currency}</div>
+                            </div>
+                            <div>
+                                <span class="label">Veränderung</span>
+                                <div style="font-size:20px;font-weight:700;color:${changeColor};">
+                                    ${change > 0 ? '+' : ''}${change.toFixed(2)} (${changePercent.toFixed(2)}%)
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;font-size:13px;color:#6b7a8f;">
+                            ${meta.longName || meta.shortName || ''} · ${meta.exchangeName || ''}
+                        </div>
+                    `;
+
+                    // Historische Daten für Chart (letzte 30 Tage)
+                    await loadHistory(symbol);
+
+                } catch (err) {
+                    detailView.innerHTML = `<p style="color:#d92b2b;">Fehler beim Laden: ${err.message}</p>`;
+                }
+            }
+
+            async function loadHistory(symbol) {
+                try {
+                    const end = Math.floor(Date.now() / 1000);
+                    const start = end - 30 * 24 * 60 * 60;
+
+                    const url =
+                        `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?period1=${start}&period2=${end}&interval=1d`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    const result = data.chart.result[0];
+                    const timestamps = result.timestamp || [];
+                    const quotes = result.indicators.quote[0] || {};
+                    const closes = quotes.close || [];
+
+                    const labels = timestamps.map(ts => new Date(ts * 1000).toLocaleDateString('de-DE'));
+                    const prices = closes.map(c => c || 0);
+
+                    if (historyChart) historyChart.destroy();
+
+                    const histCtx = document.getElementById('historyChart').getContext('2d');
+                    historyChart = new Chart(histCtx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Schlusskurs',
+                                data: prices,
+                                borderColor: '#1a5cff',
+                                backgroundColor: 'rgba(26,92,255,0.05)',
+                                fill: true,
+                                tension: 0.2,
+                                pointRadius: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: { labels: { color: '#2a3a4f', font: { size: 11 } } }
+                            },
+                            scales: {
+                                x: { ticks: { color: '#6b7a8f', font: { size: 9 }, maxTicksLimit: 15 },
+                                grid: { color: '#eef2f7' } },
+                                y: { ticks: { color: '#6b7a8f' }, grid: { color: '#eef2f7' } }
+                            }
+                        }
+                    });
+
+                } catch (err) {
+                    console.error('History error:', err);
+                }
+            }
+
+            // ----- Search Event-Listener -----
+            $('searchBtn').addEventListener('click', function() {
+                const query = $('searchInput').value.trim();
+                if (query.length > 0) {
+                    searchYahoo(query);
+                }
+            });
+
+            $('searchInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    $('searchBtn').click();
+                }
+            });
+
+            // ----- History Vollbild -----
+            $('fullscreenHistoryBtn').addEventListener('click', function() {
+                const canvas = document.getElementById('historyChart');
+                if (!document.fullscreenElement) {
+                    canvas.requestFullscreen().catch(err => {});
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // ==========================================================
+            // TABS
+            // ==========================================================
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                    document.getElementById(this.dataset.tab).classList.add('active');
+
+                    // Charts nach Tab-Wechsel neu zeichnen
+                    if (this.dataset.tab === 'tab-dashboard') {
+                        lboChart.update();
+                    }
+                    if (this.dataset.tab === 'tab-montecarlo' && mcChart) {
+                        mcChart.update();
+                    }
+                    if (this.dataset.tab === 'tab-search' && historyChart) {
+                        historyChart.update();
+                    }
+                });
+            });
+
+            // ==========================================================
+            // INIT
+            // ==========================================================
+
+            loadDemo();
+            calcCompound();
+            calcReturn();
+
+            // Standard-Suche beim Start
+            setTimeout(() => {
+                searchYahoo('AAPL');
+            }, 500);
+
+            console.log('✅ Toolkit v7.0 geladen – alle Funktionen bereit.');
+            console.log('📌 Tabs: Dashboard | Monte Carlo | Rechner | Suche');
+            console.log('🔍 Yahoo Finance API integriert.');
+
+        })();
+    </script>
+</body>
+</html>
